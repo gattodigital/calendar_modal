@@ -80,21 +80,27 @@
       <div class="row">
 
         <nav class="col-lg-3 d-none d-lg-block">
+
           <h4>Sidebar</h4>
+
           <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cupiditate suscipit maxime sed architecto officia consequuntur, eum quam, voluptatibus asperiores unde hic? Quisquam neque maxime odio animi debitis sed minus! Quos!</p>
+
           <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magnam alias fuga aspernatur! Odio cum odit nisi voluptatum facere totam, recusandae dignissimos officia sit sunt beatae eos excepturi blanditiis fugiat est.</p>
+
         </nav>
-        <!-- /#SidebarFilters -->
 
         <main class="col-lg-9">
 
           <h4>Content</h4>
+
           <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eius commodi accusamus, atque expedita mollitia eaque tempora totam voluptatibus praesentium! Sed aut enim sapiente odio nemo repudiandae vero alias incidunt voluptatem.</p>
+
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis quod quas cumque recusandae, odit veniam at, quidem repellat consectetur magnam rem, natus ad suscipit sint blanditiis veritatis nesciunt officia odio.</p>
           <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla tempora deleniti commodi ex maxime et nobis illum beatae ducimus modi non, quae, quam odio fuga accusantium harum suscipit facere reprehenderit.</p>
+
           <a id="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#CalendarModal">Calendar Modal</a>
+
         </main>
-        <!-- /#ProductGrid -->
         
       </div>
       <!-- /.row -->
@@ -102,8 +108,44 @@
     </div>
     <!-- /.container -->
 
+    <style>
+
+      #EventCalendar table.fc-scrollgrid,
+      #EventCalendar th.fc-col-header-cell {
+        border: none;
+      }
+
+      #EventCalendar th.fc-col-header-cell a.fc-col-header-cell-cushion {
+        pointer-events: none;
+        color: #000;
+      }
+
+      #EventCalendar .fc-daygrid-day-frame {
+        background-color: #f5f5f5;
+        padding: 10px;
+      }
+
+      #EventCalendar td.fc-day-today .fc-daygrid-day-frame {
+        background-color: #d5d5d5;
+      }
+
+      #EventCalendar td.fc-daygrid-day {
+        border: 3px solid #fff;
+      }
+
+      #EventCalendar a.fc-daygrid-day-number {
+        color: #000;
+        font-size: 18px;
+      }
+
+      #EventCalendar .fc-daygrid-day-events .event-data {
+        font-size: 12px;
+      }
+
+    </style>
+
     <!-- Calendar Modal -->
-    <div class="modal fade show" id="CalendarModal" tabindex="-1" aria-labelledby="CalendarModalLabel" style="display: block;" aria-modal="true" role="dialog">
+    <div class="modal fade show" id="CalendarModal" tabindex="-1" aria-labelledby="CalendarModalLabel" aria-modal="true" style="display: block;" role="dialog">
       <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -113,7 +155,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <div id="calendar"></div>
+            <div id="EventCalendar"></div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -124,14 +166,18 @@
     </div>
 
     <script src="//code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script>window.jQuery || document.write('<script src="//getbootstrap.com/docs/4.6/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="//getbootstrap.com/docs/4.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
 
     <!-- FullCalendar JS -->
     <script src="//cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.js"></script>
 
     <script>
+
+      // Calendar init
       document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
+        var calendarEl = document.getElementById('EventCalendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: 'dayGridMonth'
         });
@@ -139,8 +185,31 @@
       });
 
       $( document ).ready(function() {
-        jQuery('.fc-daygrid-day').find(".fc-daygrid-day-events").append('<div class="event-data small"><span class="open-time">Open: 8:00am</span><br><span class="close-time">Close: 6:00pm</span></div>');
+
+        // Add event data to calendar dates
+        $('.fc-daygrid-day').find(".fc-daygrid-day-events").append('<div class="event-data"><span class="open-time">Open: 8:00am</span><br><span class="close-time">Close: 6:00pm</span></div>');
+
+        // Popover init
+        $(function () {
+          $('[data-toggle="popover"]').popover({
+            trigger:'click',
+            placement:'bottom'
+          })
+        });
+
+        // Add popover to calendar dates
+        $('a.fc-daygrid-day-number').attr({
+          tabindex:"0",
+          type:"button", 
+          title:"Day, Month Date, Year",
+          "data-content":"We are open today from 8:00am to 6:00pm / OR / We are closed today... This data is to be filled dynamically",
+          "data-toggle":"popover",
+          "data-trigger":"focus"
+        });
+
       });
+
+     
     </script>
 
   </body>
