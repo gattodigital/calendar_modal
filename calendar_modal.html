@@ -120,9 +120,32 @@
         color: #000;
       }
 
+      #EventCalendar .fc-scrollgrid-section>td {
+        border: none;
+      }
+
+      #EventCalendar .fc-today-button {
+        background-color: #ffffff;
+        color: #000;
+        text-transform: capitalize;
+      }
+
+      #EventCalendar .fc-button-primary {
+        background-color: #ffffff;
+        color: #000000;
+        border: 1px solid #dee1e5;
+        padding: 5px 8px;
+      }
+
+      #EventCalendar .fc-daygrid-day-top {
+        margin-bottom: auto;
+      }
+
       #EventCalendar .fc-daygrid-day-frame {
         background-color: #f5f5f5;
         padding: 10px;
+        display: flex;
+        flex-direction: column;
       }
 
       #EventCalendar td.fc-day-today .fc-daygrid-day-frame {
@@ -135,11 +158,87 @@
 
       #EventCalendar a.fc-daygrid-day-number {
         color: #000;
-        font-size: 18px;
+        font-size: 22px;
+        padding-bottom: 10px;
+        text-decoration: none !important;
+      }
+
+      #EventCalendar .fc-daygrid-day-frame.no-event {
+        opacity: 0.25;
+        pointer-events: none;
+      }
+
+      #EventCalendar .fc-daygrid-day-frame.no-event .event-data .open-time,
+      #EventCalendar .fc-daygrid-day-frame.no-event .event-data .close-time {
+        display: none;
+      }
+
+      #EventCalendar .fc-daygrid-day-frame.no-event .event-data:after {
+        content: 'Closed';
+        display: block;
+        text-align: center;
+      }
+
+      #EventCalendar .fc-daygrid-day-frame.no-event:after {
+        content: '\e070';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        font-size: 26px;
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        text-align: center;
       }
 
       #EventCalendar .fc-daygrid-day-events .event-data {
-        font-size: 12px;
+        font-size: 11px;
+      }
+
+      @media (max-width: 991.98px) {
+        #EventCalendar .fc-daygrid-day-events .event-data .open-time>span,
+        #EventCalendar .fc-daygrid-day-events .event-data .close-time>span {
+          display: none;
+        }
+      }
+
+      @media (min-width: 768px) and (max-width: 991.98px) {
+        #CalendarModal .modal-dialog {
+          max-width: 720px;
+        }
+      }
+
+      @media (max-width: 767.98px) {
+        #EventCalendar .fc-toolbar-title {
+          font-size: 20px;
+        }
+        #EventCalendar .fc-today-button {
+          display: none;
+        }
+        #EventCalendar .fc-daygrid-day-frame {
+          padding: 5px;
+        }
+        #EventCalendar .fc-daygrid-day-frame.no-event:after {
+          content: '\f715';
+          font-size: 22px;
+          top: 50%;
+        }
+        #EventCalendar .fc-daygrid-day-top {
+          display: block;
+          text-align: center;
+          margin: auto;
+        }
+        #EventCalendar a.fc-daygrid-day-number {
+          font-size: 16px;
+        }
+        #EventCalendar .fc-daygrid-day-events {
+          min-height: auto;
+        }
+        #EventCalendar .fc-daygrid-day-events .event-data {
+          display: none;
+        }
+
       }
 
     </style>
@@ -187,7 +286,7 @@
       $( document ).ready(function() {
 
         // Add event data to calendar dates
-        $('.fc-daygrid-day').find(".fc-daygrid-day-events").append('<div class="event-data"><span class="open-time">Open: 8:00am</span><br><span class="close-time">Close: 6:00pm</span></div>');
+        $('.fc-daygrid-day').find(".fc-daygrid-day-events").append('<div class="event-data"><span class="open-time"><span>Open:</span> 8:00am</span><br><span class="close-time"><span>Close:</span> 10:00pm</span></div>');
 
         // Popover init
         $(function () {
@@ -198,14 +297,17 @@
         });
 
         // Add popover to calendar dates
-        $('a.fc-daygrid-day-number').attr({
+        $('.fc-daygrid-day-frame').attr({
           tabindex:"0",
           type:"button", 
           title:"Day, Month Date, Year",
-          "data-content":"We are open today from 8:00am to 6:00pm / OR / We are closed today... This data is to be filled dynamically",
+          "data-content":"We are open today from 8:00am to 6:00pm... This data is to be filled dynamically",
           "data-toggle":"popover",
           "data-trigger":"focus"
         });
+
+        // Add 'no-event' class to dates
+        $('.fc-daygrid-day.fc-day-mon').find('.fc-daygrid-day-frame').addClass('no-event');
 
       });
 
