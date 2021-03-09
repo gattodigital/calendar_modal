@@ -291,7 +291,7 @@
         // Popover init
         $(function () {
           $('[data-toggle="popover"]').popover({
-            trigger:'click',
+            trigger:'hover focus',
             placement:'bottom'
           })
         });
@@ -303,7 +303,7 @@
           title:"Day, Month Date, Year",
           "data-content":"We are open today from 8:00am to 6:00pm... This data is to be filled dynamically",
           "data-toggle":"popover",
-          "data-trigger":"focus"
+          "data-trigger":"hover focus"
         });
 
         // Add 'no-event' class to dates
