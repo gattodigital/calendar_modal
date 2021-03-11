@@ -108,6 +108,8 @@
     </div>
     <!-- /.container -->
 
+    
+    <!-- Calendar Styles -->
     <style>
 
       #EventCalendar table.fc-scrollgrid,
@@ -148,12 +150,18 @@
         flex-direction: column;
       }
 
+      #EventCalendar .fc-daygrid-day-frame:hover,
+      #EventCalendar .fc-daygrid-day-frame:focus {
+        outline: none;
+      }
+
       #EventCalendar td.fc-day-today .fc-daygrid-day-frame {
         background-color: #d5d5d5;
       }
 
       #EventCalendar td.fc-daygrid-day {
         border: 3px solid #fff;
+        outline: none;
       }
 
       #EventCalendar a.fc-daygrid-day-number {
@@ -238,13 +246,12 @@
         #EventCalendar .fc-daygrid-day-events .event-data {
           display: none;
         }
-
       }
 
     </style>
 
     <!-- Calendar Modal -->
-    <div class="modal fade show" id="CalendarModal" tabindex="-1" aria-labelledby="CalendarModalLabel" aria-modal="true" style="display: block;" role="dialog">
+    <div class="modal fade show" id="CalendarModal" tabindex="-1" aria-labelledby="CalendarModalLabel" style="display: block" aria-modal="true" role="dialog">
       <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -256,10 +263,6 @@
           <div class="modal-body">
             <div id="EventCalendar"></div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
         </div>
       </div>
     </div>
@@ -268,10 +271,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script>window.jQuery || document.write('<script src="//getbootstrap.com/docs/4.6/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="//getbootstrap.com/docs/4.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 
-
     <!-- FullCalendar JS -->
     <script src="//cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.js"></script>
-
     <script>
 
       // Calendar init
@@ -283,19 +284,24 @@
         calendar.render();
       });
 
+      // Calendar first displayed hidden, then not displayed visible
+      $('#CalendarModal').css('visibility', 'hidden');
+
       $( document ).ready(function() {
 
-        // Add event data to calendar dates
-        $('.fc-daygrid-day').find(".fc-daygrid-day-events").append('<div class="event-data"><span class="open-time"><span>Open:</span> 8:00am</span><br><span class="close-time"><span>Close:</span> 10:00pm</span></div>');
+        $('#CalendarModal').modal('handleUpdate');
 
-        // Popover init
-        $(function () {
-          $('[data-toggle="popover"]').popover({
-            trigger:'focus',
-            placement:'bottom'
-          });
-          
+        // Hacky trick to display calendar in modal
+        $('#CalendarModal').css({
+          'display': 'none',
+          'visibility': 'visible'
         });
+
+        // Add event data to calendar dates
+        $(".fc-daygrid-day-events").append('<div class="event-data"><span class="open-time"><span>Open:</span> 8:00am</span><br><span class="close-time"><span>Close:</span> 10:00pm</span></div>');
+
+        // Add 'no-event' class to dates
+        $('.fc-daygrid-day.fc-day-mon').find('.fc-daygrid-day-frame').addClass('no-event');
 
         // Add popover to calendar dates
         $('.fc-daygrid-day-frame').attr({
@@ -306,12 +312,26 @@
           "data-toggle":"popover"
         });
 
-        // Add 'no-event' class to dates
-        $('.fc-daygrid-day.fc-day-mon').find('.fc-daygrid-day-frame').addClass('no-event');
+        // Popover init
+        if ($(window).width() < 960) {
+         $(function () {
+           $('[data-toggle="popover"]').popover({
+             trigger:'focus',
+             placement:'bottom',
+           });   
+          });
+        }
+        else {
+         $(function () {
+           $('[data-toggle="popover"]').popover({
+             trigger:'hover',
+             placement:'top'
+           });
+         });
+        }
 
       });
 
-     
     </script>
 
   </body>
