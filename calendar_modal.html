@@ -27,7 +27,7 @@
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="//fonts.gstatic.com">
-    <link href="//fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
@@ -111,6 +111,36 @@
     
     <!-- Calendar Styles -->
     <style>
+
+      #CalendarModal {
+        font-size: 14px;
+        font-family: 'Open Sans', sans-serif;
+      }
+
+      #CalendarModal .modal-header {
+        position: relative;
+        padding: 5px 0px 20px;
+      }
+
+      #CalendarModal .modal-header .close {
+        font-size: 30px;
+        color: #000000;
+        opacity: 1;
+        padding: 10px 20px;
+      }
+
+      #CalendarModal h2.modal-title {
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      #CalendarModal .modal-content {
+        padding: 20px;
+      }
+
+      #CalendarModal .modal-body {
+        padding: 25px 0;
+      }
 
       #EventCalendar table.fc-scrollgrid,
       #EventCalendar th.fc-col-header-cell {
@@ -205,6 +235,12 @@
       }
 
       @media (max-width: 991.98px) {
+        #CalendarModal .modal-content {
+          padding: 15px;
+        }
+        #CalendarModal .modal-header {
+          padding-bottom: 15px;
+        }
         #EventCalendar .fc-daygrid-day-events .event-data .open-time>span,
         #EventCalendar .fc-daygrid-day-events .event-data .close-time>span {
           display: none;
@@ -255,7 +291,7 @@
       <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Calendar Modal</h5>
+            <h2 class="modal-title">Silver Dollar City </h2>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
